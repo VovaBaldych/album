@@ -1,0 +1,7 @@
+album.content:
+  path: '/album'
+  defaults:
+    _controller: '\Drupal\album\Controller\AlbumController::content'
+    _title: 'Album'
+  requirements:
+    _permission: 'access content'

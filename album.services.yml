@@ -1,0 +1,7 @@
+services:
+  album.hello:
+    class: Drupal\album\HelloService
+
+  album.album:
+    class: Drupal\album\AlbumService
+    arguments: ['@http_client']
