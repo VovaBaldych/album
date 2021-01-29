@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Contains \Drupal\test_twig\Controller\TestTwigController.
+ */
 
 namespace Drupal\album\Controller;
 
@@ -14,7 +18,7 @@ class AlbumController extends ControllerBase {
    */
   public function content() {
     return [
-      '#markup' => $this->t('Hello, World!'),
+      '#markup' => $this->t('Hello World!'),
     ];
   }
 

@@ -61,7 +61,9 @@ class AlbumBlock extends BlockBase implements ContainerFactoryPluginInterface {
           <img src=' . $photo['thumbnailUrl'] . '>';
       }
       return [
-        '#markup' => $result,
+        // '#markup' => $result,
+        '#theme' => 'my_template',
+        '#test_var' => $this->t('Test Value'),
       ];
     } else {
       return [
