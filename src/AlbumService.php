@@ -34,6 +34,24 @@ class AlbumService {
   }
 
   /**
+   * Function returns all albums by user ID.
+   */
+  public function getAlbumsByUserID($userID) {
+    var_dump($userID);
+
+    $response = $this->httpClient->request('GET', 'https://jsonplaceholder.typicode.com/albums?userId=' . $userID);
+    $albums = json_decode($response->getBody()->getContents());
+    $albums_new = [];
+    foreach ($albums as $album) {
+      if ($album->userId == $userID) {
+        $albums_new[$album->id] = $album->title;
+      }
+    }
+
+    return $albums_new;
+  }
+
+  /**
    * Function returns photos from $albumId.
    */
   public function getAlbumPhotos($albumId) {

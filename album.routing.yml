@@ -5,3 +5,11 @@ album.content:
     _title: 'Album'
   requirements:
     _permission: 'access content'
+
+album.form:
+  path: '/dummy-photos'
+  defaults:
+    _form: 'Drupal\album\Form\AlbumForm'
+    _title: 'Form for getting photos'
+  requirements:
+    _permission: 'access content'
