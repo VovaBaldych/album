@@ -17,8 +17,12 @@ class AlbumController extends ControllerBase {
    * Output content.
    */
   public function content() {
+    // $form = \Drupal::formBuilder() -> getForm('Drupal\album\Form\AlbumForm');
+    // $form['#attached']['library'][] = 'album/form-styles';
+
     return [
-      '#markup' => $this->t('Hello World!'),
+      '#theme' => 'album_form',
+      '#form' => $form,
     ];
   }
 
