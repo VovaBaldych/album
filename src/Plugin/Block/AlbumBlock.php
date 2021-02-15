@@ -65,7 +65,8 @@ class AlbumBlock extends BlockBase implements ContainerFactoryPluginInterface {
         '#theme' => 'my_template',
         // '#test_var' => $this->t('Test Value'),
       ];
-    } else {
+    }
+    else {
       return [
         '#markup' => $this->t("Album is not selected! Please, select someone!"),
       ];

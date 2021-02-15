@@ -110,7 +110,7 @@ class AlbumForm extends FormBase {
       $response->addCommand(new HtmlCommand('.error-messages', $this->t('Please, input number!')));
       return $response;
     }
-    $form['field_album']['#options'] += $this->httpClient->getAlbumsByUserID($userID);
+    $form['field_album']['#options'] += $this->httpClient->getAlbumsByUserId($userID);
     return $form['field_album'];
   }
 
