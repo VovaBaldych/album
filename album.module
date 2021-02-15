@@ -10,7 +10,7 @@ function album_theme($existing, $type, $theme, $path) {
     'my_template' => [
       'variables' => ['test_var' => NULL,],
     ],
-
+    
     'album_form' => [
       'render element' => 'form',
     ]

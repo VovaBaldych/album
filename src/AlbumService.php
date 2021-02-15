@@ -11,8 +11,7 @@ use Drupal\Core\Cache\CacheBackendInterface;
 class AlbumService {
 
   /**
-   * No comment.
-   *
+   * 
    * @var httpClient
    *  Keep httpClient object.
    */
