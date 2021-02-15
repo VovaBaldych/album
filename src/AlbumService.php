@@ -17,12 +17,14 @@ class AlbumService {
    *  Keep httpClient object.
    */
   private $httpClient;
+  private $cacheQuery;
 
   /**
    * Inject HttpClient in PhotosService class.
    */
-  public function __construct(ClientInterface $http_client) {
+  public function __construct(ClientInterface $http_client, CacheBackendInterface $cache_query) {
     $this->httpClient = $http_client;
+    $this->cacheQuery = $cache_query;
   }
 
   /**
@@ -38,17 +40,9 @@ class AlbumService {
    * Function returns all albums by user ID.
    */
   public function getAlbumsByUserID($userID) {
-//    $response = $this->httpClient->request('GET', 'https://jsonplaceholder.typicode.com/albums?userId=' . $userID);
-//    $albums = json_decode($response->getBody()->getContents());
-//
-//    $albums_new = [];
-//    foreach ($albums as $album) {
-//        $albums_new[$album->id] = $album->title;
-//    }
-//
-//    return $albums_new;
+    $cid = 'tag_albums_cache_data_'.$userID;
 
-    if($cache = Drupal::cache()->get('tag_albums_cache_data_'.$userID)) {
+    if($cache = $this->cacheQuery->get($cid)) {
       $albums = $cache->data;
     } else {
       $tags = ['tag_user_id:'.$userID];
@@ -59,7 +53,7 @@ class AlbumService {
         foreach ($albumsAll as $album) {
           $albums[$album->id] = $album->title;
         }
-        Drupal::cache()->set('tag_albums_cache_data_'.$userID, $albums, REQUEST_TIME + (3600), $tags);
+        $this->cacheQuery->set('tag_albums_cache_data_'.$userID, $albums, REQUEST_TIME + (3600), $tags);
         return $albums;
       } else {
         return [];

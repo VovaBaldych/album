@@ -1,5 +1,7 @@
 <?php
 
+use Drupal\Core\Cache\Cache;
+
 /**
  * Implements hook_theme().
  */
@@ -13,4 +15,12 @@ function album_theme($existing, $type, $theme, $path) {
       'render element' => 'form',
     ]
   ];
+}
+
+/**
+ * Implements cron function.
+ */
+function album_cron() {
+  $cache_id = 'tag_user_id:4';
+  Cache::invalidateTags([$cache_id]);
 }
