@@ -8,12 +8,12 @@ use Drupal\Core\Cache\Cache;
 function album_theme($existing, $type, $theme, $path) {
   return [
     'my_template' => [
-      'variables' => ['test_var' => NULL,],
+      'variables' => ['test_var' => NULL],
     ],
 
     'album_form' => [
       'render element' => 'form',
-    ]
+    ],
   ];
 }
 
@@ -23,4 +23,33 @@ function album_theme($existing, $type, $theme, $path) {
 function album_cron() {
   $cache_id = 'tag_user_id:4';
   Cache::invalidateTags([$cache_id]);
+}
+
+/**
+ * Implements hook_block_alter().
+ */
+function album_block_alter(&$definitions) {
+  $definitions['user_login_block']['admin_label'] = t('Login');
+}
+
+/**
+ * Implements hook_block_build_alter().
+ */
+function hook_block_build_alter(array &$build, \Drupal\Core\Block\
+BlockPluginInterface $block) {
+  // Add the 'url' cache the block per URL.
+  if ($block->getBaseId() == 'thisone_block') {
+    $build['#contexts'][] = 'url';
+  }
+}
+
+/**
+ * Implements hook_block_view_alter().
+ */
+function hook_block_view_alter(array &$build, \Drupal\Core\Block\
+BlockPluginInterface $block) {
+  // Remove the contextual links on all blocks that provide them.
+  if (isset($build['#contextual_links'])) {
+    unset($build['#contextual_links']);
+  }
 }

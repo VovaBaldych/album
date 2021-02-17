@@ -11,20 +11,28 @@ use Drupal\Core\Cache\CacheBackendInterface;
 class AlbumService {
 
   /**
-   * No comment.
+   * Implement AlbumService class.
    *
    * @var httpClient
-   *  Keep httpClient object.
+   * Keep httpClient object.
    */
+
   private $httpClient;
-  private $cacheQuery;
+
+  /**
+   * Implement AlbumService class.
+   *
+   * @var cacheBackend
+   * Keep cacheBackend object.
+   */
+  private $cacheBackend;
 
   /**
    * Inject HttpClient in PhotosService class.
    */
-  public function __construct(ClientInterface $http_client, CacheBackendInterface $cache_query) {
+  public function __construct(ClientInterface $http_client, CacheBackendInterface $cache_backend) {
     $this->httpClient = $http_client;
-    $this->cacheQuery = $cache_query;
+    $this->cacheBackend = $cache_backend;
   }
 
   /**
@@ -39,23 +47,25 @@ class AlbumService {
   /**
    * Function returns all albums by user ID.
    */
-  public function getAlbumsByUserID($userID) {
-    $cid = 'tag_albums_cache_data_'.$userID;
+  public function getAlbumsByUserId($userID) {
+    $cid = 'tag_albums_cache_data_' . $userID;
 
-    if($cache = $this->cacheQuery->get($cid)) {
+    if ($cache = $this->cacheBackend->get($cid)) {
       $albums = $cache->data;
-    } else {
-      $tags = ['tag_user_id:'.$userID];
+    }
+    else {
+      $tags = ['tag_user_id:' . $userID];
       $response = $this->httpClient->request('GET', 'https://jsonplaceholder.typicode.com/albums?userId=' . $userID);
       $albumsAll = json_decode($response->getBody()->getContents());
 
-      if($albumsAll) {
+      if ($albumsAll) {
         foreach ($albumsAll as $album) {
           $albums[$album->id] = $album->title;
         }
-        $this->cacheQuery->set('tag_albums_cache_data_'.$userID, $albums, REQUEST_TIME + (3600), $tags);
+        $this->cacheBackend->set('tag_albums_cache_data_' . $userID, $albums, REQUEST_TIME + (3600), $tags);
         return $albums;
-      } else {
+      }
+      else {
         return [];
       }
     }
