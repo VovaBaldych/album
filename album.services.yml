@@ -5,5 +5,3 @@ services:
   album.album:
     class: Drupal\album\AlbumService
     arguments: ['@http_client', '@cache.default']
-
-  
